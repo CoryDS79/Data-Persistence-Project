@@ -153,7 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startBtn: {fileID: 1122605421}
-  nameInputField: {fileID: 773669996}
+  nameInputField: {fileID: 1785381562}
+  playerName: 
 --- !u!4 &18196452
 Transform:
   m_ObjectHideFlags: 0

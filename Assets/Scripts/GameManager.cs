@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Button startBtn;
-    [SerializeField] TextMeshProUGUI nameInputField;
-
+    [SerializeField] TMP_InputField nameInputField;
+    public string playerName;
     public static GameManager instance;
     // Start is called before the first frame update
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
 
     public void StartBtnClicked()
     {
+        playerName = nameInputField.text;
+        // Debug.Log(playerName);
         SceneManager.LoadScene("main");
     }
+
 }
