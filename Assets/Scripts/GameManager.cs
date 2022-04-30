@@ -5,12 +5,17 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Button startBtn;
     [SerializeField] TMP_InputField nameInputField;
+    MainManager mainManager;
     public string playerName;
+    // public int highScore;
     public TextMeshProUGUI highScoreText;
     public static GameManager instance;
     // Start is called before the first frame update
@@ -25,12 +30,13 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        LoadPlayerName();
+        // LoadPlayerName();
     }
 
     void Start()
     {
-
+        mainManager = FindObjectOfType<MainManager>();
+        LoadPlayerName();
     }
 
     // Update is called once per frame
@@ -42,13 +48,17 @@ public class GameManager : MonoBehaviour
     public void StartBtnClicked()
     {
         playerName = nameInputField.text;
-        // Debug.Log(playerName);
+        SavePlayerName();
         SceneManager.LoadScene("main");
     }
 
     public void QuitButtonClicked()
     {
-        LoadPlayerName();
+        #if UNITY_EDITOR
+        EditorApplication.ExitPlaymode();
+        #else
+        Application.Quit();
+        #endif
     }
 
     [System.Serializable]
@@ -62,6 +72,10 @@ public class GameManager : MonoBehaviour
     {
         SavaData data = new SavaData();
         data.playerNameSaved = playerName;
+        if (data.highScoreSaved != null)
+        {
+            data.highScoreSaved = mainManager.HighScoreText.text;
+        }
 
         string json = JsonUtility.ToJson(data);
 
@@ -76,7 +90,9 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SavaData data = JsonUtility.FromJson<SavaData>(json);
 
-            highScoreText.text = data.playerNameSaved;
+            highScoreText.text = data.highScoreSaved;
+
+
         }
     }
 
