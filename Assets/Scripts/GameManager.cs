@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public string playerName;
     // public int highScore;
     public TextMeshProUGUI highScoreText;
+    public string highScore;
     public static GameManager instance;
     // Start is called before the first frame update
 
@@ -30,19 +31,19 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // LoadPlayerName();
+        LoadPlayerName();
     }
 
     void Start()
     {
         mainManager = FindObjectOfType<MainManager>();
-        LoadPlayerName();
+        // LoadPlayerName();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartBtnClicked()
@@ -90,7 +91,8 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SavaData data = JsonUtility.FromJson<SavaData>(json);
 
-            highScoreText.text = data.highScoreSaved;
+            highScore = data.highScoreSaved;
+            highScoreText.text = highScore;
 
 
         }
